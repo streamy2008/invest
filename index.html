@@ -1,0 +1,552 @@
+<!-- Chosen Palette: Clinical Elegance (Background: slate-50, Primary: teal-600, Accent: indigo-600, Surface: white/80 glassmorphism) -->
+<!-- Application Structure Plan: 
+    1. Hero: 以实时动态心电模拟器吸引注意力。
+    2. Value Proposition: 强调“科研先行”的叙事逻辑。
+    3. Gemini AI Assistant: 集成 AI 模块，利用 LLM 为代理商提供选题建议和定制话术。
+    4. Live Demo: 实时生命体征流，展示产品的动态数据捕捉能力。
+    5. Proof: 交互式散点图，直观展示学术级精度。
+    6. Tooling: 针对医疗代理商的学术话术生成器。
+    整体布局采用思源宋体，营造古典、严谨、权威的学术氛围。 -->
+<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AcademicCare | 院用监护设备科研价值演示</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* 导入思源宋体 Noto Serif SC */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --medical-primary: #0d9488;
+            --medical-secondary: #4f46e5;
+        }
+
+        body {
+            /* 全局应用思源宋体 */
+            font-family: 'Noto Serif SC', serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            overflow-x: hidden;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+            margin: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+
+        .live-indicator {
+            width: 8px;
+            height: 8px;
+            background-color: #ef4444;
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--medical-primary), var(--medical-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+        }
+
+        /* AI Loading Animation */
+        .dot-flashing {
+            position: relative;
+            width: 10px;
+            height: 10px;
+            border-radius: 5px;
+            background-color: var(--medical-primary);
+            color: var(--medical-primary);
+            animation: dot-flashing 1s infinite linear alternate;
+            animation-delay: .5s;
+        }
+        .dot-flashing::before, .dot-flashing::after {
+            content: '';
+            display: inline-block;
+            position: absolute;
+            top: 0;
+        }
+        .dot-flashing::before {
+            left: -15px;
+            width: 10px;
+            height: 10px;
+            border-radius: 5px;
+            background-color: var(--medical-primary);
+            color: var(--medical-primary);
+            animation: dot-flashing 1s infinite linear alternate;
+            animation-delay: 0s;
+        }
+        .dot-flashing::after {
+            left: 15px;
+            width: 10px;
+            height: 10px;
+            border-radius: 5px;
+            background-color: var(--medical-primary);
+            color: var(--medical-primary);
+            animation: dot-flashing 1s infinite linear alternate;
+            animation-delay: 1s;
+        }
+        @keyframes dot-flashing {
+            0% { background-color: var(--medical-primary); }
+            50%, 100% { background-color: #ebe6ff; }
+        }
+        
+        /* 强制部分UI元素（如代码、数值）使用等宽或无衬线体以保证清晰度 */
+        .font-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important; }
+        .font-sans { font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important; }
+    </style>
+</head>
+<body class="selection:bg-teal-100">
+
+    <!-- 导航栏 -->
+    <nav class="fixed top-0 w-full z-50 glass border-b border-slate-200/50">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between h-20 items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-teal-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-teal-600/20">
+                    A
+                </div>
+                <div>
+                    <span class="text-xl font-bold tracking-tight text-slate-800">Academic<span class="text-teal-600">Care</span></span>
+                    <p class="text-[10px] uppercase tracking-widest text-slate-400 font-semibold leading-none font-sans">Smart Medical Tech</p>
+                </div>
+            </div>
+            <div class="hidden lg:flex gap-10">
+                <a href="#monitor" class="text-sm font-medium text-slate-600 hover:text-teal-600 transition">实时动态</a>
+                <a href="#gemini-ai" class="text-sm font-medium text-slate-600 hover:text-teal-600 transition">AI 助手 ✨</a>
+                <a href="#research" class="text-sm font-medium text-slate-600 hover:text-teal-600 transition">科研价值</a>
+                <a href="#accuracy" class="text-sm font-medium text-slate-600 hover:text-teal-600 transition">精度实证</a>
+            </div>
+            <a href="#contact" class="bg-slate-900 hover:bg-teal-700 text-white px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 font-sans">
+                洽谈代理
+            </a>
+        </div>
+    </nav>
+
+    <!-- 主视觉 -->
+    <section class="pt-44 pb-24 px-6 max-w-7xl mx-auto text-center">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-teal-50 text-teal-700 text-xs font-bold mb-8 border border-teal-100 font-sans">
+            <span class="live-indicator"></span> 2026 智慧病房科研级新标杆
+        </div>
+        <h1 class="text-5xl lg:text-7xl font-extrabold text-slate-900 mb-8 tracking-tight">
+            不只是监护仪 <br/> 更是科室的 <span class="gradient-text">SCI 助推器</span>
+        </h1>
+        <p class="text-xl text-slate-500 max-w-2xl mx-auto leading-relaxed mb-12">
+            在 DRG/DIP 改革下，为医院提供“临床+科研”双重价值。集成 Gemini AI 助手，协助代理商成为真正的学术顾问。
+        </p>
+        
+        <!-- 实时监控模拟器 -->
+        <div id="monitor" class="max-w-5xl mx-auto glass rounded-3xl p-1 shadow-2xl border border-white">
+            <div class="bg-slate-950 rounded-[22px] overflow-hidden">
+                <div class="px-6 py-4 flex justify-between items-center border-b border-white/10 bg-white/5">
+                    <div class="flex items-center gap-4">
+                        <div class="text-teal-400 font-mono text-sm uppercase tracking-tighter">Live Stream: Patient_082</div>
+                        <div class="text-white/40 text-xs font-mono">256Hz Sampling</div>
+                    </div>
+                    <div class="flex gap-6">
+                        <div class="text-right">
+                            <span class="block text-[10px] text-white/50 uppercase font-sans">Heart Rate</span>
+                            <span id="hr-value" class="text-2xl font-bold text-teal-400 font-mono">72</span>
+                        </div>
+                        <div class="text-right">
+                            <span class="block text-[10px] text-white/50 uppercase font-sans">SPO2</span>
+                            <span id="spo2-value" class="text-2xl font-bold text-blue-400 font-mono">98</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <div class="chart-container h-64">
+                        <canvas id="liveEcgChart"></canvas>
+                    </div>
+                </div>
+                <div class="px-6 py-3 bg-white/5 border-t border-white/10 flex justify-between">
+                    <span class="text-white/30 text-[10px] font-mono">RAW DATA OUTPUT: ENABLED</span>
+                    <span class="text-teal-500 text-[10px] font-bold font-sans">● CONTINUOUS RECORDING</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gemini AI 助手部分 -->
+    <section id="gemini-ai" class="py-24 bg-slate-50 border-y border-slate-200">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-slate-900 mb-4">Gemini AI 学术招商助手 ✨</h2>
+                <p class="text-slate-500 text-lg">利用 Google Gemini 的强大能力，为您的进院方案注入智能灵感</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- 工具 1: 科研选题 -->
+                <div class="glass p-8 rounded-3xl border border-white shadow-xl">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-indigo-600 text-white rounded-lg flex items-center justify-center font-bold">✨</div>
+                        <h3 class="text-xl font-bold text-slate-800">临床科研选题生成器</h3>
+                    </div>
+                    <p class="text-sm text-slate-600 mb-6">输入科室名称和大致研究方向，AI 将为您推荐具有 SCI 潜力的选题及数据采集方案。</p>
+                    <div class="space-y-4">
+                        <input id="ai-dept" type="text" placeholder="例如：心内科 / 围手术期管理" class="w-full p-4 rounded-xl border border-slate-200 focus:ring-2 focus:ring-teal-500 outline-none">
+                        <button onclick="generateResearch()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-xl transition flex items-center justify-center gap-2 font-sans">
+                            生成选题建议 ✨
+                        </button>
+                    </div>
+                    <div id="research-result" class="mt-6 p-6 bg-white/50 rounded-2xl border border-slate-100 hidden">
+                    </div>
+                </div>
+
+                <!-- 工具 2: 个性化话术 -->
+                <div class="glass p-8 rounded-3xl border border-white shadow-xl">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-teal-600 text-white rounded-lg flex items-center justify-center font-bold">✨</div>
+                        <h3 class="text-xl font-bold text-slate-800">个性化进院话术专家</h3>
+                    </div>
+                    <p class="text-sm text-slate-600 mb-6">描述目标主任的背景（例如：注重学术、关心效率），AI 将定制专属的沟通逻辑。</p>
+                    <div class="space-y-4">
+                        <textarea id="ai-context" rows="2" placeholder="例如：主任正在筹备国家级课题，平时比较排斥纯商业推销..." class="w-full p-4 rounded-xl border border-slate-200 focus:ring-2 focus:ring-teal-500 outline-none"></textarea>
+                        <button onclick="generatePitch()" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-4 rounded-xl transition flex items-center justify-center gap-2 font-sans">
+                            定制专属话术 ✨
+                        </button>
+                    </div>
+                    <div id="pitch-result" class="mt-6 p-6 bg-white/50 rounded-2xl border border-slate-100 hidden">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 科研痛点 -->
+    <section id="research" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div>
+                    <h2 class="text-4xl font-bold text-slate-900 mb-6">为什么主任没法拒绝？</h2>
+                    <p class="text-lg text-slate-500 mb-10 leading-relaxed">
+                        目前国内三甲医院科室主任面临极大的学术压力。我们的设备直击“临床数据不可用、不可溯、不连续”的痛点。
+                    </p>
+                    <div class="space-y-6">
+                        <div class="flex gap-5">
+                            <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center font-bold text-xl flex-shrink-0 font-sans">01</div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-lg">高频原始波形导出</h4>
+                                <p class="text-slate-500">不再只有平均值。导出毫秒级波形，支撑 AI 预警算法模型开发。</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-5">
+                            <div class="w-12 h-12 bg-teal-50 text-teal-600 rounded-2xl flex items-center justify-center font-bold text-xl flex-shrink-0 font-sans">02</div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-lg">金标准一致性验证</h4>
+                                <p class="text-slate-500">皮尔逊相关系数 > 0.95。数据精度对标三甲医院大监护。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="bg-slate-50 p-8 rounded-3xl card-hover">
+                        <div class="text-3xl font-bold text-teal-600 mb-2 font-sans">95%+</div>
+                        <p class="text-sm text-slate-500">科研数据采集自动化程度。</p>
+                    </div>
+                    <div class="bg-slate-900 p-8 rounded-3xl card-hover text-white">
+                        <div class="text-3xl font-bold text-teal-400 mb-2 font-mono">CSV</div>
+                        <p class="text-sm text-slate-300">通用学术数据格式，支持 SPSS/Python 一键导入。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 精度实证 -->
+    <section id="accuracy" class="py-24 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-6 text-center mb-16">
+            <h2 class="text-3xl font-bold text-slate-900 mb-4">用数据说话：学术级的严谨</h2>
+            <p class="text-slate-500">实时生成的模拟对比数据，展示本产品在极高采样频率下的稳定性。</p>
+        </div>
+
+        <div class="max-w-5xl mx-auto glass rounded-3xl p-8 shadow-sm">
+            <div class="flex justify-center mb-10">
+                <div class="inline-flex p-1 bg-slate-200/50 rounded-xl">
+                    <button id="btn-acc" class="px-6 py-2 rounded-lg text-sm font-bold bg-white text-teal-700 shadow-sm transition font-sans" onclick="switchChart('accuracy')">精度相关性</button>
+                    <button id="btn-trd" class="px-6 py-2 rounded-lg text-sm font-medium text-slate-500 hover:text-slate-700 transition font-sans" onclick="switchChart('trend')">长期趋势图</button>
+                </div>
+            </div>
+
+            <div id="chart-accuracy" class="chart-container">
+                <canvas id="accuracyChart"></canvas>
+            </div>
+            <div id="chart-trend" class="chart-container hidden">
+                <canvas id="trendChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- 表单 -->
+    <section id="contact" class="py-24 bg-white">
+        <div class="max-w-3xl mx-auto px-6 text-center">
+            <h2 class="text-4xl font-bold text-slate-900 mb-6 font-serif">加入智慧医疗新风口</h2>
+            <p class="text-slate-500 mb-12">已有 50+ 区域代理成功进驻三甲医院。留下您的联系方式，获取全套《学术招商白皮书》。</p>
+            
+            <form class="space-y-4" onsubmit="event.preventDefault(); alert('信息已收录。');">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <input type="text" placeholder="您的姓名" class="w-full p-4 rounded-2xl border border-slate-200 focus:ring-2 focus:ring-teal-500 outline-none glass" required>
+                    <input type="tel" placeholder="联系手机" class="w-full p-4 rounded-2xl border border-slate-200 focus:ring-2 focus:ring-teal-500 outline-none glass" required>
+                </div>
+                <input type="text" placeholder="意向代理区域" class="w-full p-4 rounded-2xl border border-slate-200 focus:ring-2 focus:ring-teal-500 outline-none glass" required>
+                <button type="submit" class="w-full bg-slate-900 hover:bg-teal-700 text-white font-bold py-5 rounded-2xl transition-all duration-300 text-lg font-sans">
+                    获取代理商政策手册
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="py-12 border-t border-slate-200 text-center">
+        <p class="text-slate-400 text-sm font-sans">&copy; 2026 AcademicCare Medical. 专注于医疗大数据与科研级穿戴监护。</p>
+    </footer>
+
+    <script>
+        const apiKey = "";
+        const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+
+        async function callGemini(prompt, systemInstruction) {
+            let retries = 0;
+            const maxRetries = 5;
+            
+            while (retries < maxRetries) {
+                try {
+                    const response = await fetch(GEMINI_API_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: [{ parts: [{ text: prompt }] }],
+                            systemInstruction: { parts: [{ text: systemInstruction }] }
+                        })
+                    });
+
+                    const data = await response.json();
+                    if (data.candidates && data.candidates[0].content.parts[0].text) {
+                        return data.candidates[0].content.parts[0].text;
+                    }
+                    throw new Error("Invalid API response");
+                } catch (error) {
+                    retries++;
+                    if (retries >= maxRetries) throw error;
+                    await new Promise(resolve => setTimeout(resolve, Math.pow(2, retries) * 1000));
+                }
+            }
+        }
+
+        async function generateResearch() {
+            const dept = document.getElementById('ai-dept').value;
+            const resultDiv = document.getElementById('research-result');
+            if (!dept) return alert("请输入科室名称");
+
+            resultDiv.classList.remove('hidden');
+            resultDiv.innerHTML = '<div class="flex items-center justify-center p-8"><div class="dot-flashing"></div></div>';
+
+            const systemPrompt = "你是一位资深的医疗临床科研顾问，擅长利用连续生理监测数据制定科研选题。请基于用户提供的科室，推荐3个具有SCI发表潜力的研究方向，并说明这款可穿戴设备提供的‘24小时连续高频原始数据’在该课题中的核心学术价值。回复请使用专业且具有号召力的中文。";
+            const userPrompt = `科室/方向：${dept}。请为我提供针对代理商进院沟通时使用的学术课题建议。`;
+
+            try {
+                const result = await callGemini(userPrompt, systemPrompt);
+                resultDiv.innerHTML = `
+                    <div class="text-sm leading-relaxed text-slate-800 prose prose-teal">
+                        <div class="font-bold text-indigo-700 mb-2">✨ AI 选题建议已生成：</div>
+                        ${result.replace(/\n/g, '<br>')}
+                    </div>
+                `;
+            } catch (e) {
+                resultDiv.innerHTML = '<p class="text-red-500 text-xs">生成失败，请稍后重试。</p>';
+            }
+        }
+
+        async function generatePitch() {
+            const context = document.getElementById('ai-context').value;
+            const resultDiv = document.getElementById('pitch-result');
+            if (!context) return alert("请输入主任的背景信息");
+
+            resultDiv.classList.remove('hidden');
+            resultDiv.innerHTML = '<div class="flex items-center justify-center p-8"><div class="dot-flashing"></div></div>';
+
+            const systemPrompt = "你是一位顶级的医疗器械招商总监，擅长‘学术营销’。请基于用户提供的主任背景或痛点，定制一段极具专业性、能够触动主任学术热情的进院沟通话术。聚焦于科研数据获取难的痛点和SCI论文产出。";
+            const userPrompt = `主任背景：${context}。请为我生成一段针对性的进院敲门砖话术。`;
+
+            try {
+                const result = await callGemini(userPrompt, systemPrompt);
+                resultDiv.innerHTML = `
+                    <div class="text-sm leading-relaxed text-slate-800 bg-teal-50/50 p-4 rounded-xl border border-teal-100">
+                        <div class="font-bold text-teal-700 mb-2">✨ AI 定制话术已生成：</div>
+                        <div class="italic">“${result}”</div>
+                    </div>
+                `;
+            } catch (e) {
+                resultDiv.innerHTML = '<p class="text-red-500 text-xs">生成失败，请稍后重试。</p>';
+            }
+        }
+
+        // 图表及动画逻辑保持不变
+        let liveEcgChart;
+        function initLiveEcg() {
+            const ctx = document.getElementById('liveEcgChart').getContext('2d');
+            let ecgData = Array(50).fill(0);
+            let ecgLabels = Array(50).fill('');
+            let ecgCounter = 0;
+
+            liveEcgChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ecgLabels,
+                    datasets: [{
+                        label: 'ECG RAW',
+                        data: ecgData,
+                        borderColor: '#2dd4bf',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.4,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { display: false },
+                        y: { display: false, min: -10, max: 15 }
+                    }
+                }
+            });
+
+            setInterval(() => {
+                ecgCounter++;
+                let newValue = 0;
+                let mod = ecgCounter % 20;
+                if (mod === 0) newValue = 12;
+                else if (mod === 1) newValue = -4;
+                else if (mod === 2) newValue = 2;
+                else newValue = Math.random() * 2 - 1;
+
+                ecgData.push(newValue);
+                ecgData.shift();
+                liveEcgChart.update('none');
+
+                if (ecgCounter % 10 === 0) {
+                    const hr = document.getElementById('hr-value');
+                    const spo2 = document.getElementById('spo2-value');
+                    if(hr) hr.innerText = Math.floor(70 + Math.random() * 5);
+                    if(spo2) spo2.innerText = Math.floor(97 + Math.random() * 3);
+                }
+            }, 80);
+        }
+
+        let accuracyChart, trendChart;
+        function initEvidenceCharts() {
+            const accCtx = document.getElementById('accuracyChart').getContext('2d');
+            const accScatter = [];
+            for(let i=60; i<=140; i+=4) {
+                accScatter.push({x: i, y: i + (Math.random()-0.5)*3});
+            }
+
+            accuracyChart = new Chart(accCtx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: '测试点 (N=120)',
+                        data: accScatter,
+                        backgroundColor: '#0d9488'
+                    }, {
+                        label: '理想相关线',
+                        data: [{x:60,y:60}, {x:140,y:140}],
+                        type: 'line',
+                        borderColor: '#cbd5e1',
+                        borderDash: [5,5],
+                        fill: false,
+                        pointRadius: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { title: { display: true, text: '台式监护仪 (BPM)' } },
+                        y: { title: { display: true, text: '本设备 (BPM)' } }
+                    }
+                }
+            });
+
+            const trendCtx = document.getElementById('trendChart').getContext('2d');
+            trendChart = new Chart(trendCtx, {
+                type: 'line',
+                data: {
+                    labels: Array.from({length: 24}, (_, i) => `${i}:00`),
+                    datasets: [{
+                        label: '连续采样数据',
+                        data: Array.from({length: 24}, () => 75 + Math.random()*10),
+                        borderColor: '#4f46e5',
+                        backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        function switchChart(type) {
+            const acc = document.getElementById('chart-accuracy');
+            const trd = document.getElementById('chart-trend');
+            const bAcc = document.getElementById('btn-acc');
+            const bTrd = document.getElementById('btn-trd');
+            
+            if (type === 'accuracy') {
+                acc.classList.remove('hidden');
+                trd.classList.add('hidden');
+                bAcc.classList.add('bg-white', 'text-teal-700', 'shadow-sm', 'font-bold');
+                bAcc.classList.remove('text-slate-500');
+                bTrd.classList.remove('bg-white', 'text-teal-700', 'shadow-sm', 'font-bold');
+                bTrd.classList.add('text-slate-500');
+            } else {
+                acc.classList.add('hidden');
+                trd.classList.remove('hidden');
+                bTrd.classList.add('bg-white', 'text-teal-700', 'shadow-sm', 'font-bold');
+                bTrd.classList.remove('text-slate-500');
+                bAcc.classList.remove('bg-white', 'text-teal-700', 'shadow-sm', 'font-bold');
+                bAcc.classList.add('text-slate-500');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initLiveEcg();
+            initEvidenceCharts();
+        });
+    </script>
+</body>
+</html>
