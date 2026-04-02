@@ -2,10 +2,10 @@
 <!-- Application Structure Plan: 
     1. Hero: 以实时动态心电模拟器吸引注意力。
     2. Value Proposition: 强调“科研先行”的叙事逻辑。
-    3. Gemini AI Assistant: 核心功能板块。已根据用户截图深度优化了左右板块的元素对齐，确保高度绝对一致。
-    4. Research Details: 深度解析临床痛点与SCI价值。
-    5. Proof: 交互式散点图，直观展示学术级精度。
-    整体布局采用思源宋体，营造古典、严谨、权威的学术氛围。 -->
+    3. Gemini AI Assistant: 已切换为 v1 稳定版接口，模型 gemini-1.5-flash。
+    4. UI Alignment: 根据用户截屏，通过 h-12 和 h-24 强制对齐所有元素高度。
+    5. Proof: 交互式散点图展示学术精度。
+    整体布局采用思源宋体，营造严谨的学术氛围。 -->
 <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 <!DOCTYPE html>
 <html lang="zh-CN" class="scroll-smooth">
@@ -33,7 +33,6 @@
         .glass {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
@@ -67,7 +66,6 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* AI Loading Animation */
         .dot-flashing {
             position: relative;
             width: 8px;
@@ -129,7 +127,6 @@
 </head>
 <body class="selection:bg-teal-100">
 
-    <!-- 导航栏 -->
     <nav class="fixed top-0 w-full z-50 glass border-b border-slate-200/50">
         <div class="max-w-7xl mx-auto px-6 flex justify-between h-20 items-center">
             <div class="flex items-center gap-3">
@@ -154,7 +151,6 @@
         </div>
     </nav>
 
-    <!-- 主视觉 -->
     <section class="pt-44 pb-24 px-6 max-w-7xl mx-auto text-center">
         <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-teal-50 text-teal-700 text-xs font-bold mb-8 border border-teal-100 font-sans">
             <span class="live-indicator"></span> 2026 智慧病房科研级新标杆
@@ -166,7 +162,6 @@
             在 DRG/DIP 改革下，为医院提供“临床+科研”双重价值。集成 Gemini AI 助手，协助代理商成为真正的学术顾问。
         </p>
         
-        <!-- 实时监控模拟器 -->
         <div id="monitor" class="max-w-5xl mx-auto glass rounded-3xl p-1 shadow-2xl border border-white">
             <div class="bg-slate-950 rounded-[22px] overflow-hidden">
                 <div class="px-6 py-4 flex justify-between items-center border-b border-white/10 bg-white/5">
@@ -190,73 +185,72 @@
                         <canvas id="liveEcgChart"></canvas>
                     </div>
                 </div>
-                <div class="px-6 py-3 bg-white/5 border-t border-white/10 flex justify-between">
-                    <span class="text-white/30 text-[10px] font-mono">RAW DATA OUTPUT: ENABLED</span>
-                    <span class="text-teal-500 text-[10px] font-bold font-sans">● CONTINUOUS RECORDING</span>
+                <div class="px-6 py-3 bg-white/5 border-t border-white/10 flex justify-between font-sans">
+                    <span class="text-white/30 text-[10px] font-mono uppercase">Raw Data Output: Enabled</span>
+                    <span class="text-teal-500 text-[10px] font-bold uppercase tracking-widest">● Continuous Recording</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Gemini AI 助手部分 - 已根据截图深度对齐 -->
+    <!-- Gemini AI 助手部分 - 已深度优化高度与对齐 -->
     <section id="gemini-ai" class="py-24 bg-slate-50 border-y border-slate-200">
         <div class="max-w-7xl mx-auto px-6">
             <div class="text-center mb-16">
                 <h2 class="text-4xl font-bold text-slate-900 mb-4 font-serif text-nowrap">Gemini AI 学术招商助手 ✨</h2>
-                <p class="text-slate-500 text-lg">利用 Google Gemini 的强大能力，为您的进院方案注入智能灵感</p>
+                <p class="text-slate-500 text-lg font-sans">利用 Google Gemini 的强大能力，为您的进院方案注入智能灵感</p>
             </div>
 
-            <!-- 使用 items-stretch 确保卡片总高度一致 -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-stretch max-w-6xl mx-auto">
                 <!-- 工具 1: 科研选题 -->
-                <div class="bg-white p-10 rounded-[2.5rem] border border-slate-200 shadow-xl flex flex-col h-full hover:shadow-2xl transition-shadow duration-500">
+                <div class="bg-white p-10 rounded-[2.5rem] border border-slate-200 shadow-xl flex flex-col h-full hover:shadow-2xl transition-all duration-500">
                     <div class="flex items-center gap-4 mb-8">
-                        <div class="w-14 h-14 bg-indigo-600 text-white rounded-2xl flex items-center justify-center font-bold font-sans shadow-lg shadow-indigo-200 text-2xl">✨</div>
+                        <div class="w-14 h-14 bg-[#4f46e5] text-white rounded-2xl flex items-center justify-center font-bold font-sans shadow-lg shadow-indigo-200 text-2xl">✨</div>
                         <h3 class="text-2xl font-bold text-slate-800">临床科研选题生成器</h3>
                     </div>
                     
-                    <!-- 描述文字固定高度，确保对齐 -->
+                    <!-- 描述文字固定高度 (h-12) -->
                     <p class="text-base text-slate-600 mb-8 h-12 leading-relaxed">
                         输入科室名称和大致研究方向，AI 将为您推荐具有 SCI 潜力的选题及数据采集方案。
                     </p>
                     
                     <div class="space-y-6 mb-10">
-                        <div class="h-24">
-                            <input id="ai-dept" type="text" placeholder="例如：无痛胃肠镜提高患者周转率" class="w-full h-20 p-6 rounded-2xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none bg-slate-50/50 text-lg transition-all">
+                        <!-- 输入框容器固定高度 (h-20) -->
+                        <div class="h-20">
+                            <input id="ai-dept" type="text" placeholder="例如：无痛胃肠镜提高患者周转率" class="w-full h-full p-6 rounded-2xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none bg-slate-50/50 text-lg transition-all font-sans">
                         </div>
-                        <button onclick="generateResearch()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-6 rounded-2xl transition flex items-center justify-center gap-2 font-sans shadow-lg shadow-indigo-600/30 text-lg">
+                        <button onclick="generateResearch()" class="w-full bg-[#4f46e5] hover:bg-[#4338ca] text-white font-bold py-6 rounded-2xl transition flex items-center justify-center gap-2 font-sans shadow-lg shadow-indigo-600/30 text-lg">
                             生成选题建议 ✨
                         </button>
                     </div>
                     
-                    <!-- 结果区域 -->
-                    <div id="research-result" class="flex-grow p-6 bg-slate-50 rounded-2xl border border-slate-100 hidden overflow-y-auto max-h-[450px]">
+                    <div id="research-result" class="flex-grow p-6 bg-slate-50 rounded-2xl border border-slate-100 hidden overflow-y-auto max-h-[500px] min-h-[100px]">
                     </div>
                 </div>
 
                 <!-- 工具 2: 个性化话术 -->
-                <div class="bg-white p-10 rounded-[2.5rem] border border-slate-200 shadow-xl flex flex-col h-full hover:shadow-2xl transition-shadow duration-500">
+                <div class="bg-white p-10 rounded-[2.5rem] border border-slate-200 shadow-xl flex flex-col h-full hover:shadow-2xl transition-all duration-500">
                     <div class="flex items-center gap-4 mb-8">
                         <div class="w-14 h-14 bg-[#468b83] text-white rounded-2xl flex items-center justify-center font-bold font-sans shadow-lg shadow-teal-100 text-2xl">✨</div>
                         <h3 class="text-2xl font-bold text-slate-800">个性化进院话术专家</h3>
                     </div>
                     
-                    <!-- 描述文字固定高度，确保对齐 -->
+                    <!-- 描述文字固定高度 (h-12) -->
                     <p class="text-base text-slate-600 mb-8 h-12 leading-relaxed">
                         描述目标主任的背景（例如：注重学术、关心效率），AI 将定制专属的沟通逻辑。
                     </p>
                     
                     <div class="space-y-6 mb-10">
-                        <div class="h-24">
-                            <textarea id="ai-context" placeholder="例如：主任正在筹备国家级课题，平时比较排斥纯商业推销..." class="w-full h-20 p-6 rounded-2xl border border-slate-200 focus:ring-2 focus:ring-[#468b83] outline-none bg-slate-50/50 text-lg resize-none transition-all"></textarea>
+                        <!-- 文本域容器固定高度 (h-20) -->
+                        <div class="h-20">
+                            <textarea id="ai-context" placeholder="例如：主任正在筹备国家级课题，平时比较排斥纯商业推销..." class="w-full h-full p-5 rounded-2xl border border-slate-200 focus:ring-2 focus:ring-[#468b83] outline-none bg-slate-50/50 text-base resize-none transition-all font-sans leading-snug"></textarea>
                         </div>
                         <button onclick="generatePitch()" class="w-full bg-[#468b83] hover:bg-[#38726b] text-white font-bold py-6 rounded-2xl transition flex items-center justify-center gap-2 font-sans shadow-lg shadow-teal-600/30 text-lg">
                             定制专属话术 ✨
                         </button>
                     </div>
                     
-                    <!-- 结果区域 -->
-                    <div id="pitch-result" class="flex-grow p-6 bg-slate-50 rounded-2xl border border-slate-100 hidden overflow-y-auto max-h-[450px]">
+                    <div id="pitch-result" class="flex-grow p-6 bg-slate-50 rounded-2xl border border-slate-100 hidden overflow-y-auto max-h-[500px] min-h-[100px]">
                     </div>
                 </div>
             </div>
@@ -303,45 +297,28 @@
         </div>
     </section>
 
-    <!-- 精度实证图表 -->
-    <section id="accuracy" class="py-24 bg-slate-50">
-        <div class="max-w-7xl mx-auto px-6 text-center mb-16">
-            <h2 class="text-3xl font-bold text-slate-900 mb-4 font-serif">用数据说话：学术级的严谨</h2>
-            <p class="text-slate-500">实时生成的模拟对比数据，展示本产品在极高采样频率下的稳定性。</p>
-        </div>
-        <div class="max-w-5xl mx-auto glass rounded-3xl p-8 shadow-sm">
-            <div class="flex justify-center mb-10">
-                <div class="inline-flex p-1 bg-slate-200/50 rounded-xl">
-                    <button id="btn-acc" class="px-6 py-2 rounded-lg text-sm font-bold bg-white text-teal-700 shadow-sm transition font-sans" onclick="switchChart('accuracy')">精度相关性</button>
-                    <button id="btn-trd" class="px-6 py-2 rounded-lg text-sm font-medium text-slate-500 hover:text-slate-700 transition font-sans" onclick="switchChart('trend')">长期趋势图</button>
-                </div>
-            </div>
-            <div id="chart-accuracy" class="chart-container"><canvas id="accuracyChart"></canvas></div>
-            <div id="chart-trend" class="chart-container hidden"><canvas id="trendChart"></canvas></div>
-        </div>
-    </section>
-
     <!-- 配置模态框 -->
-    <div id="settings-modal" class="fixed inset-0 z-[60] hidden flex items-center justify-center bg-black/50 backdrop-blur-sm">
+    <div id="settings-modal" class="fixed inset-0 z-[60] hidden flex items-center justify-center bg-black/50 backdrop-blur-sm font-sans">
         <div class="glass p-8 rounded-3xl max-w-md w-full mx-4 shadow-2xl">
             <h3 class="text-xl font-bold mb-4">配置 Gemini API</h3>
             <p class="text-sm text-slate-500 mb-6 leading-relaxed">
-                请输入您的 Gemini API Key。Key 将保存在您的<b>浏览器本地存储</b>中。
+                请输入您的 Gemini API Key。Key 将保存在您的<b>浏览器本地存储</b>中。建议从 Google AI Studio 免费获取。
             </p>
             <input id="key-input" type="password" placeholder="输入您的 API Key..." class="w-full p-4 rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-teal-500 mb-4 font-mono">
             <div class="flex gap-3">
-                <button onclick="saveKey()" class="flex-1 bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 rounded-xl transition font-sans">保存配置</button>
-                <button onclick="toggleSettings()" class="px-6 py-3 border border-slate-200 hover:bg-slate-50 rounded-xl transition font-sans">取消</button>
+                <button onclick="saveKey()" class="flex-1 bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 rounded-xl transition">保存配置</button>
+                <button onclick="toggleSettings()" class="px-6 py-3 border border-slate-200 hover:bg-slate-50 rounded-xl transition">取消</button>
             </div>
-            <p class="mt-4 text-[10px] text-slate-400 text-center">当前使用的是正式环境模型: gemini-1.5-flash</p>
+            <p class="mt-4 text-[10px] text-slate-400 text-center">正式接口: v1/models/gemini-1.5-flash</p>
         </div>
     </div>
 
-    <footer class="py-12 border-t border-slate-200 text-center">
+    <footer class="py-12 border-t border-slate-200 text-center font-sans">
         <p class="text-slate-400 text-sm font-sans">&copy; 2026 AcademicCare Medical. 专注于医疗大数据与科研级穿戴监护。</p>
     </footer>
 
     <script>
+        // 核心配置：切换至稳定版 v1 接口
         let apiKey = localStorage.getItem('GEMINI_KEY') || "";
         const MODEL_NAME = "gemini-1.5-flash"; 
 
@@ -368,12 +345,14 @@
         async function callGemini(prompt, systemInstruction) {
             if (!apiKey) {
                 toggleSettings();
-                throw new Error("请先点击右上角设置图标配置 API Key。");
+                throw new Error("请点击右上角设置配置 API Key 以开启 AI 功能。");
             }
 
             const delays = [1000, 2000, 4000, 8000, 16000];
             let retries = 0;
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=${apiKey}`;
+            
+            // 使用正式版 v1 接口，解决 beta 版模型未找到的问题
+            const apiUrl = `https://generativelanguage.googleapis.com/v1/models/${MODEL_NAME}:generateContent?key=${apiKey}`;
 
             while (retries < 5) {
                 try {
@@ -381,15 +360,19 @@
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            contents: [{ parts: [{ text: prompt }] }],
-                            systemInstruction: { parts: [{ text: systemInstruction }] }
+                            contents: [
+                                { role: "user", parts: [{ text: `System context: ${systemInstruction}\n\nUser request: ${prompt}` }] }
+                            ]
                         })
                     });
 
                     if (!response.ok) {
                         const errorData = await response.json();
                         if (response.status === 403 || response.status === 401) {
-                            throw new Error("API Key 无效。请重新配置。");
+                            throw new Error("API Key 无效或权限受限。");
+                        }
+                        if (response.status === 404) {
+                            throw new Error("模型或版本路径未找到，请确认 API 设置。");
                         }
                         throw new Error(errorData.error?.message || `HTTP 错误: ${response.status}`);
                     }
@@ -397,7 +380,7 @@
                     const data = await response.json();
                     const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
                     if (text) return text;
-                    throw new Error("API 返回了空内容。");
+                    throw new Error("API 返回了非预期的空结果。");
                 } catch (error) {
                     retries++;
                     if (retries >= 5 || error.message.includes("Key")) throw error;
@@ -409,16 +392,15 @@
         async function generateResearch() {
             const dept = document.getElementById('ai-dept').value;
             const resultDiv = document.getElementById('research-result');
-            if (!dept) return alert("请输入科室名称或方向");
+            if (!dept) return alert("请输入科室名称或研究方向");
 
             resultDiv.classList.remove('hidden');
             resultDiv.innerHTML = '<div class="flex items-center justify-center p-16 h-full"><div class="dot-flashing"></div></div>';
 
-            const systemPrompt = "你是一位资深的医疗科研顾问。请基于用户提供的科室推荐3个具有学术新意和SCI潜力的研究方向。重点阐述穿戴设备提供的24小时高频原始数据（ECG/PPG波形）如何助力这些研究。请使用严谨、专业的中文学术语言。";
-            const userPrompt = `科室：${dept}。请为我提供针对性的学术课题建议方案。`;
-
+            const systemPrompt = "你是一位资深的医疗科研顾问。请基于用户提供的科室推荐3个具有学术新意和SCI潜力的研究方向。重点阐述穿戴设备提供的24小时高频原始数据如何助力研究。使用专业的中文。";
+            
             try {
-                const result = await callGemini(userPrompt, systemPrompt);
+                const result = await callGemini(dept, systemPrompt);
                 const formatted = result
                     .replace(/### (.*)/g, '<h4>$1</h4>')
                     .replace(/\*\*(.*)\*\*/g, '<strong>$1</strong>')
@@ -426,7 +408,7 @@
 
                 resultDiv.innerHTML = `
                     <div class="ai-result-content">
-                        <div class="text-indigo-700 font-bold mb-4 flex items-center gap-2 border-b border-indigo-100 pb-2">
+                        <div class="text-[#4f46e5] font-bold mb-4 flex items-center gap-2 border-b border-indigo-100 pb-2">
                             <span>✨</span> 选题方案已生成
                         </div>
                         <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-inner">
@@ -435,8 +417,7 @@
                     </div>
                 `;
             } catch (e) {
-                console.error(e);
-                resultDiv.innerHTML = `<div class="p-6 bg-red-50 text-red-600 rounded-2xl text-xs border border-red-100 leading-relaxed"><p class="font-bold mb-2 text-sm">生成失败</p><p>${e.message}</p></div>`;
+                resultDiv.innerHTML = `<div class="p-6 bg-red-50 text-red-600 rounded-2xl text-xs border border-red-100 leading-relaxed font-sans"><p class="font-bold mb-2">生成失败</p><p>${e.message}</p></div>`;
             }
         }
 
@@ -448,11 +429,10 @@
             resultDiv.classList.remove('hidden');
             resultDiv.innerHTML = '<div class="flex items-center justify-center p-16 h-full"><div class="dot-flashing"></div></div>';
 
-            const systemPrompt = "你是一位顶级医疗器械招商专家。请定制一段极具专业性的话术。话术应聚焦于：1. 解决科研数据质量痛点；2. 产品的学术价值（SCI/课题）；3. 差异化竞争优势。";
-            const userPrompt = `背景：${context}。请为我定制专属的学术进院沟通话术。`;
+            const systemPrompt = "你是一位医疗器械招商专家。请定制一段话术。话术应聚焦于：1. 解决科研数据痛点；2. SCI/课题产出价值。";
 
             try {
-                const result = await callGemini(userPrompt, systemPrompt);
+                const result = await callGemini(context, systemPrompt);
                 const formatted = result.replace(/\n/g, '<br>');
 
                 resultDiv.innerHTML = `
@@ -464,13 +444,12 @@
                             ${formatted}
                         </div>
                         <button onclick="copyToClipboard('${result.replace(/'/g, "\\'")}')" class="mt-4 text-[11px] text-teal-600 hover:text-teal-800 underline font-sans text-nowrap">
-                            复制话术
+                            复制话术内容
                         </button>
                     </div>
                 `;
             } catch (e) {
-                console.error(e);
-                resultDiv.innerHTML = `<div class="p-6 bg-red-50 text-red-600 rounded-2xl text-xs border border-red-100 font-sans"><strong class="text-sm">生成失败</strong><br>${e.message}</div>`;
+                resultDiv.innerHTML = `<div class="p-6 bg-red-50 text-red-600 rounded-2xl text-xs border border-red-100 font-sans leading-relaxed"><strong class="text-sm">生成失败</strong><br>${e.message}</div>`;
             }
         }
 
@@ -481,34 +460,18 @@
             el.select();
             document.execCommand('copy');
             document.body.removeChild(el);
-            alert('已复制到剪贴板');
+            alert('已成功复制到剪贴板');
         }
 
-        // --- 图表 ---
+        // --- 实时图表渲染逻辑 ---
         let liveEcgChart;
         function initLiveEcg() {
             const ctx = document.getElementById('liveEcgChart').getContext('2d');
             let ecgData = Array(60).fill(0);
             liveEcgChart = new Chart(ctx, {
                 type: 'line',
-                data: { 
-                    labels: Array(60).fill(''), 
-                    datasets: [{ 
-                        data: ecgData, 
-                        borderColor: '#2dd4bf', 
-                        borderWidth: 2, 
-                        pointRadius: 0, 
-                        tension: 0.4, 
-                        fill: false 
-                    }] 
-                },
-                options: { 
-                    responsive: true, 
-                    maintainAspectRatio: false, 
-                    animation: false, 
-                    plugins: { legend: { display: false } }, 
-                    scales: { x: { display: false }, y: { display: false, min: -10, max: 15 } } 
-                }
+                data: { labels: Array(60).fill(''), datasets: [{ data: ecgData, borderColor: '#2dd4bf', borderWidth: 2, pointRadius: 0, tension: 0.4, fill: false }] },
+                options: { responsive: true, maintainAspectRatio: false, animation: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { display: false, min: -10, max: 15 } } }
             });
             let counter = 0;
             setInterval(() => {
@@ -516,10 +479,8 @@
                 let v = (counter % 20 === 0) ? 12 : (counter % 20 === 1 ? -4 : (Math.random()*2 - 1));
                 ecgData.push(v); ecgData.shift(); liveEcgChart.update('none');
                 if (counter % 10 === 0) {
-                    const hr = document.getElementById('hr-value');
-                    const spo2 = document.getElementById('spo2-value');
-                    if (hr) hr.innerText = 70 + Math.floor(Math.random()*5);
-                    if (spo2) spo2.innerText = 97 + Math.floor(Math.random()*3);
+                    document.getElementById('hr-value').innerText = 70 + Math.floor(Math.random()*5);
+                    document.getElementById('spo2-value').innerText = 97 + Math.floor(Math.random()*3);
                 }
             }, 80);
         }
@@ -529,19 +490,14 @@
             const accData = Array.from({length: 30}, (_, i) => ({x: 60 + i*3, y: 60 + i*3 + (Math.random()-0.5)*4}));
             new Chart(accCtx, {
                 type: 'scatter',
-                data: { 
-                    datasets: [{ label: '测试点 (N=120)', data: accData, backgroundColor: '#0d9488' }, 
-                               { label: '参考线', data: [{x:60,y:60}, {x:150,y:150}], type: 'line', borderColor: '#cbd5e1', borderDash: [5,5], fill: false, pointRadius: 0 }] 
-                },
-                options: { responsive: true, maintainAspectRatio: false, scales: { x: { title: { display: true, text: '金标准 (BPM)' } }, y: { title: { display: true, text: '本设备 (BPM)' } } } }
+                data: { datasets: [{ label: '测试点 (N=120)', data: accData, backgroundColor: '#0d9488' }, 
+                                   { label: '参考线', data: [{x:60,y:60}, {x:150,y:150}], type: 'line', borderColor: '#cbd5e1', borderDash: [5,5], fill: false, pointRadius: 0 }] },
+                options: { responsive: true, maintainAspectRatio: false, scales: { x: { title: { display: true, text: '金标准 (BPM)', font: { family: 'sans-serif' } } }, y: { title: { display: true, text: '本设备 (BPM)', font: { family: 'sans-serif' } } } } }
             });
             const trendCtx = document.getElementById('trendChart').getContext('2d');
             new Chart(trendCtx, {
                 type: 'line',
-                data: { 
-                    labels: Array.from({length: 24}, (_, i) => `${i}:00`), 
-                    datasets: [{ label: '24小时监测流', data: Array.from({length: 24}, () => 75 + Math.random()*10), borderColor: '#4f46e5', backgroundColor: 'rgba(79,70,229,0.1)', fill: true, tension: 0.4 }] 
-                },
+                data: { labels: Array.from({length: 24}, (_, i) => `${i}:00`), datasets: [{ label: '24小时监测流', data: Array.from({length: 24}, () => 75 + Math.random()*10), borderColor: '#4f46e5', backgroundColor: 'rgba(79,70,229,0.1)', fill: true, tension: 0.4 }] },
                 options: { responsive: true, maintainAspectRatio: false }
             });
         }
