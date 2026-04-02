@@ -2,7 +2,7 @@
 <!-- Application Structure Plan: 
     1. Hero: 以实时动态心电模拟器吸引注意力。
     2. Value Proposition: 强调“科研先行”的叙事逻辑。
-    3. Gemini AI Assistant: 核心功能板块。修复了对齐问题，并加固了 API 调用逻辑。
+    3. Gemini AI Assistant: 集成 AI 模块，支持用户自主配置 API Key 以确保 GitHub 部署安全。
     4. Research Details: 深度解析临床痛点与SCI价值。
     5. Proof: 交互式散点图，直观展示学术级精度。
     整体布局采用思源宋体，营造古典、严谨、权威的学术氛围。 -->
@@ -16,7 +16,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        /* 导入思源宋体 */
         @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700&display=swap');
         
         :root {
@@ -113,17 +112,18 @@
         .font-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important; }
         .font-sans { font-family: ui-sans-serif, system-ui, sans-serif !important; }
 
-        /* 强制 AI 结果区域美化 */
         .ai-result-content {
             font-size: 0.875rem;
-            line-height: 1.6;
+            line-height: 1.7;
             color: #334155;
         }
         .ai-result-content h4 {
             font-weight: 700;
             color: #0f172a;
-            margin-top: 1rem;
+            margin-top: 1.25rem;
             margin-bottom: 0.5rem;
+            border-left: 3px solid var(--medical-primary);
+            padding-left: 0.75rem;
         }
     </style>
 </head>
@@ -139,13 +139,18 @@
                     <p class="text-[10px] uppercase tracking-widest text-slate-400 font-semibold leading-none font-sans">Smart Medical Tech</p>
                 </div>
             </div>
-            <div class="hidden lg:flex gap-10">
+            <div class="hidden lg:flex gap-8">
                 <a href="#monitor" class="text-sm font-medium text-slate-600 hover:text-teal-600 transition">实时动态</a>
                 <a href="#gemini-ai" class="text-sm font-medium text-slate-600 hover:text-teal-600 transition font-bold">AI 助手 ✨</a>
                 <a href="#research" class="text-sm font-medium text-slate-600 hover:text-teal-600 transition">科研价值</a>
-                <a href="#accuracy" class="text-sm font-medium text-slate-600 hover:text-teal-600 transition">精度实证</a>
+                <a href="#accuracy" class="text-sm font-medium text-slate-600 hover:text-teal-600 transition text-nowrap">精度实证</a>
             </div>
-            <a href="#contact" class="bg-slate-900 hover:bg-teal-700 text-white px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 font-sans">洽谈代理</a>
+            <div class="flex items-center gap-3">
+                <button onclick="toggleSettings()" class="p-2 text-slate-400 hover:text-teal-600 transition flex items-center justify-center" title="API 配置">
+                    <span class="text-xl">⚙️</span>
+                </button>
+                <a href="#contact" class="bg-slate-900 hover:bg-teal-700 text-white px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 font-sans text-nowrap">洽谈代理</a>
+            </div>
         </div>
     </nav>
 
@@ -193,7 +198,7 @@
         </div>
     </section>
 
-    <!-- Gemini AI 助手部分 - 已修复对齐 -->
+    <!-- Gemini AI 助手部分 -->
     <section id="gemini-ai" class="py-24 bg-slate-50 border-y border-slate-200">
         <div class="max-w-7xl mx-auto px-6">
             <div class="text-center mb-16">
@@ -201,10 +206,9 @@
                 <p class="text-slate-500 text-lg">利用 Google Gemini 的强大能力，为您的进院方案注入智能灵感</p>
             </div>
 
-            <!-- 使用 items-stretch 确保子元素拉伸填充高度 -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
                 <!-- 工具 1: 科研选题 -->
-                <div class="glass p-8 rounded-3xl border border-white shadow-xl flex flex-col h-full">
+                <div class="glass p-8 rounded-3xl border border-white shadow-xl flex flex-col h-full min-h-[500px]">
                     <div class="flex items-center gap-3 mb-6">
                         <div class="w-10 h-10 bg-indigo-600 text-white rounded-lg flex items-center justify-center font-bold font-sans">✨</div>
                         <h3 class="text-xl font-bold text-slate-800">临床科研选题生成器</h3>
@@ -216,13 +220,12 @@
                             生成选题建议 ✨
                         </button>
                     </div>
-                    <!-- 使用 flex-grow 确保内容区自动填满卡片 -->
-                    <div id="research-result" class="flex-grow p-6 bg-white/50 rounded-2xl border border-slate-100 hidden overflow-y-auto max-h-[400px]">
+                    <div id="research-result" class="flex-grow p-6 bg-white/40 rounded-2xl border border-slate-100 hidden overflow-y-auto max-h-[450px]">
                     </div>
                 </div>
 
                 <!-- 工具 2: 个性化话术 -->
-                <div class="glass p-8 rounded-3xl border border-white shadow-xl flex flex-col h-full">
+                <div class="glass p-8 rounded-3xl border border-white shadow-xl flex flex-col h-full min-h-[500px]">
                     <div class="flex items-center gap-3 mb-6">
                         <div class="w-10 h-10 bg-teal-600 text-white rounded-lg flex items-center justify-center font-bold font-sans">✨</div>
                         <h3 class="text-xl font-bold text-slate-800">个性化进院话术专家</h3>
@@ -234,8 +237,7 @@
                             定制专属话术 ✨
                         </button>
                     </div>
-                    <!-- 使用 flex-grow 确保内容区自动填满卡片 -->
-                    <div id="pitch-result" class="flex-grow p-6 bg-white/50 rounded-2xl border border-slate-100 hidden overflow-y-auto max-h-[400px]">
+                    <div id="pitch-result" class="flex-grow p-6 bg-white/40 rounded-2xl border border-slate-100 hidden overflow-y-auto max-h-[450px]">
                     </div>
                 </div>
             </div>
@@ -300,21 +302,61 @@
         </div>
     </section>
 
+    <!-- 配置模态框 -->
+    <div id="settings-modal" class="fixed inset-0 z-[60] hidden flex items-center justify-center bg-black/50 backdrop-blur-sm">
+        <div class="glass p-8 rounded-3xl max-w-md w-full mx-4 shadow-2xl">
+            <h3 class="text-xl font-bold mb-4">配置 Gemini API</h3>
+            <p class="text-sm text-slate-500 mb-6 leading-relaxed">
+                为了确保演示功能的正常运行，请输入您的 Gemini API Key。Key 将安全地保存在您的<b>浏览器本地存储</b>中，不会被上传至 GitHub 仓库。
+            </p>
+            <input id="key-input" type="password" placeholder="输入您的 API Key..." class="w-full p-4 rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-teal-500 mb-4 font-mono">
+            <div class="flex gap-3">
+                <button onclick="saveKey()" class="flex-1 bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 rounded-xl transition font-sans">保存配置</button>
+                <button onclick="toggleSettings()" class="px-6 py-3 border border-slate-200 hover:bg-slate-50 rounded-xl transition font-sans">取消</button>
+            </div>
+            <p class="mt-4 text-[10px] text-slate-400 text-center">建议使用 gemini-2.5-flash 或更高版本模型 Key</p>
+        </div>
+    </div>
+
     <footer class="py-12 border-t border-slate-200 text-center">
         <p class="text-slate-400 text-sm font-sans">&copy; 2026 AcademicCare Medical. 专注于医疗大数据与科研级穿戴监护。</p>
     </footer>
 
     <script>
-        const apiKey = ""; // 执行环境将自动注入 Key
+        // 核心配置逻辑
+        let apiKey = localStorage.getItem('GEMINI_KEY') || "";
         const MODEL_NAME = "gemini-2.5-flash-preview-09-2025";
 
-        // 修复：具有指数退避机制的 API 调用核心逻辑
+        function toggleSettings() {
+            const modal = document.getElementById('settings-modal');
+            modal.classList.toggle('hidden');
+            if (!modal.classList.contains('hidden')) {
+                document.getElementById('key-input').value = apiKey;
+            }
+        }
+
+        function saveKey() {
+            const val = document.getElementById('key-input').value.trim();
+            if (!val) {
+                alert("请输入有效的 API Key");
+                return;
+            }
+            apiKey = val;
+            localStorage.setItem('GEMINI_KEY', val);
+            toggleSettings();
+            alert('配置已成功保存至本地浏览器！');
+        }
+
+        // 具有指数退避机制的 API 调用核心逻辑
         async function callGemini(prompt, systemInstruction) {
-            // 指数退避延迟序列
+            if (!apiKey) {
+                toggleSettings();
+                throw new Error("请先点击右上角设置图标配置 API Key 以启用 AI 功能。");
+            }
+
             const delays = [1000, 2000, 4000, 8000, 16000];
             let retries = 0;
             
-            // 构造 API 完整的请求 URL
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=${apiKey}`;
 
             while (retries < 5) {
@@ -330,21 +372,19 @@
 
                     if (!response.ok) {
                         const errorData = await response.json();
-                        // 特殊处理：如果是 Key 没生效导致的错误，抛出具体描述
                         if (response.status === 403 || response.status === 401) {
-                            throw new Error("API 调用未授权。请确保在正确的执行环境中运行以注入 API Key。");
+                            throw new Error("API Key 无效或未授权。请检查您的 Key 是否正确，并具有访问 Gemini 模型的权限。");
                         }
-                        throw new Error(errorData.error?.message || `HTTP error! status: ${response.status}`);
+                        throw new Error(errorData.error?.message || `HTTP 错误: ${response.status}`);
                     }
 
                     const data = await response.json();
                     const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
                     if (text) return text;
-                    throw new Error("API 返回了非预期的格式。");
+                    throw new Error("API 返回了非预期的空结果。");
                 } catch (error) {
                     retries++;
-                    if (retries >= 5) throw error;
-                    // 执行退避重试
+                    if (retries >= 5 || error.message.includes("Key")) throw error;
                     await new Promise(resolve => setTimeout(resolve, delays[retries - 1]));
                 }
             }
@@ -353,18 +393,17 @@
         async function generateResearch() {
             const dept = document.getElementById('ai-dept').value;
             const resultDiv = document.getElementById('research-result');
-            if (!dept) return alert("请输入科室名称或研究方向");
+            if (!dept) return alert("请输入科室名称或方向");
 
             resultDiv.classList.remove('hidden');
-            resultDiv.innerHTML = '<div class="flex items-center justify-center p-12"><div class="dot-flashing"></div></div>';
+            resultDiv.innerHTML = '<div class="flex items-center justify-center p-16 h-full"><div class="dot-flashing"></div></div>';
 
-            const systemPrompt = "你是一位资深的医疗临床科研顾问。请基于用户提供的科室推荐3个具有学术新意和SCI潜力的研究方向。重点阐述穿戴设备提供的24小时高频原始数据（ECG/PPG/SPO2波形）在这些课题中的核心科研价值（如特征识别、预警模型等）。请使用严谨、专业的中文学术语言。";
-            const userPrompt = `科室/方向：${dept}。请为我提供针对代理商进院沟通时使用的学术课题建议。`;
+            const systemPrompt = "你是一位资深的医疗科研顾问。请基于用户提供的科室推荐3个具有学术新意和SCI潜力的研究方向。重点阐述穿戴设备提供的24小时高频原始数据（ECG/PPG波形）如何助力这些研究。请使用学术化、专业的中文。";
+            const userPrompt = `科室：${dept}。请为我提供针对性的学术课题建议方案。`;
 
             try {
                 const result = await callGemini(userPrompt, systemPrompt);
-                // 简单的 Markdown 格式化处理
-                const formattedResult = result
+                const formatted = result
                     .replace(/### (.*)/g, '<h4>$1</h4>')
                     .replace(/\*\*(.*)\*\*/g, '<strong>$1</strong>')
                     .replace(/\n/g, '<br>');
@@ -372,55 +411,50 @@
                 resultDiv.innerHTML = `
                     <div class="ai-result-content">
                         <div class="text-indigo-700 font-bold mb-4 flex items-center gap-2 border-b border-indigo-100 pb-2">
-                            <span>✨</span> AI 学术建议方案已生成：
+                            <span>✨</span> 选题方案已生成
                         </div>
-                        <div class="bg-white p-4 rounded-xl border border-slate-100 shadow-inner">
-                            ${formattedResult}
+                        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-inner">
+                            ${formatted}
                         </div>
                     </div>
                 `;
             } catch (e) {
                 console.error(e);
-                resultDiv.innerHTML = `<div class="p-6 bg-red-50 text-red-600 rounded-2xl text-xs border border-red-100">
-                    <strong>生成失败</strong><br>${e.message}<br><br>
-                    <small>提示：此功能需要有效的 API Key。若在本地运行，请在代码首行配置 apiKey。</small>
-                </div>`;
+                resultDiv.innerHTML = `<div class="p-6 bg-red-50 text-red-600 rounded-2xl text-xs border border-red-100 leading-relaxed"><p class="font-bold mb-2">生成失败</p><p>${e.message}</p></div>`;
             }
         }
 
         async function generatePitch() {
             const context = document.getElementById('ai-context').value;
             const resultDiv = document.getElementById('pitch-result');
-            if (!context) return alert("请输入主任背景信息");
+            if (!context) return alert("请输入主任背景");
 
             resultDiv.classList.remove('hidden');
-            resultDiv.innerHTML = '<div class="flex items-center justify-center p-12"><div class="dot-flashing"></div></div>';
+            resultDiv.innerHTML = '<div class="flex items-center justify-center p-16 h-full"><div class="dot-flashing"></div></div>';
 
-            const systemPrompt = "你是一位顶级医疗器械招商专家。请根据用户提供的主任背景定制一段极具专业性、能够触动专家学术热情的进院沟通话术。话术应聚焦于：1. 解决科研数据质量痛点；2. 产品的学术产出价值（SCI/高水平课题）；3. 差异化竞争优势。回复应包含“沟通策略建议”和“推荐话术内容”。";
-            const userPrompt = `主任背景：${context}。请为我定制专属的学术进院沟通话术。`;
+            const systemPrompt = "你是一位顶级医疗器械招商专家。请定制一段极具专业性的话术。话术应聚焦于：1. 解决科研数据质量痛点；2. 产品的学术价值（SCI/课题）；3. 差异化竞争优势。";
+            const userPrompt = `背景：${context}。请为我定制专属的学术进院沟通话术。`;
 
             try {
                 const result = await callGemini(userPrompt, systemPrompt);
-                const formattedResult = result.replace(/\n/g, '<br>');
+                const formatted = result.replace(/\n/g, '<br>');
 
                 resultDiv.innerHTML = `
                     <div class="ai-result-content">
                         <div class="text-teal-700 font-bold mb-4 flex items-center gap-2 border-b border-teal-100 pb-2">
-                            <span>✨</span> AI 定制沟通话术：
+                            <span>✨</span> 定制沟通话术
                         </div>
-                        <div class="bg-teal-50/30 p-4 rounded-xl border border-teal-100 italic">
-                            ${formattedResult}
+                        <div class="bg-teal-50/20 p-5 rounded-2xl border border-teal-100 italic">
+                            ${formatted}
                         </div>
                         <button onclick="copyToClipboard('${result.replace(/'/g, "\\'")}')" class="mt-4 text-[11px] text-teal-600 hover:text-teal-800 underline font-sans">
-                            复制话术内容
+                            复制话术
                         </button>
                     </div>
                 `;
             } catch (e) {
                 console.error(e);
-                resultDiv.innerHTML = `<div class="p-6 bg-red-50 text-red-600 rounded-2xl text-xs border border-red-100">
-                    <strong>生成失败</strong><br>${e.message}
-                </div>`;
+                resultDiv.innerHTML = `<div class="p-6 bg-red-50 text-red-600 rounded-2xl text-xs border border-red-100 font-sans"><strong>生成失败</strong><br>${e.message}</div>`;
             }
         }
 
@@ -431,11 +465,10 @@
             el.select();
             document.execCommand('copy');
             document.body.removeChild(el);
-            alert('话术内容已复制到剪贴板');
+            alert('已复制到剪贴板');
         }
 
-        // --- 以下为图表与动态 UI 逻辑 ---
-
+        // --- 图表逻辑 ---
         let liveEcgChart;
         function initLiveEcg() {
             const ctx = document.getElementById('liveEcgChart').getContext('2d');
@@ -458,10 +491,7 @@
                     maintainAspectRatio: false, 
                     animation: false, 
                     plugins: { legend: { display: false } }, 
-                    scales: { 
-                        x: { display: false }, 
-                        y: { display: false, min: -10, max: 15 } 
-                    } 
+                    scales: { x: { display: false }, y: { display: false, min: -10, max: 15 } } 
                 }
             });
             let counter = 0;
@@ -470,8 +500,10 @@
                 let v = (counter % 20 === 0) ? 12 : (counter % 20 === 1 ? -4 : (Math.random()*2 - 1));
                 ecgData.push(v); ecgData.shift(); liveEcgChart.update('none');
                 if (counter % 10 === 0) {
-                    document.getElementById('hr-value').innerText = 70 + Math.floor(Math.random()*5);
-                    document.getElementById('spo2-value').innerText = 97 + Math.floor(Math.random()*3);
+                    const hr = document.getElementById('hr-value');
+                    const spo2 = document.getElementById('spo2-value');
+                    if (hr) hr.innerText = 70 + Math.floor(Math.random()*5);
+                    if (spo2) spo2.innerText = 97 + Math.floor(Math.random()*3);
                 }
             }, 80);
         }
@@ -482,42 +514,17 @@
             new Chart(accCtx, {
                 type: 'scatter',
                 data: { 
-                    datasets: [{ 
-                        label: '测试样本点 (N=120)', 
-                        data: accData, 
-                        backgroundColor: '#0d9488' 
-                    }, { 
-                        label: '理论绝对相关线', 
-                        data: [{x:60,y:60}, {x:150,y:150}], 
-                        type: 'line', 
-                        borderColor: '#cbd5e1', 
-                        borderDash: [5,5], 
-                        fill: false, 
-                        pointRadius: 0 
-                    }] 
+                    datasets: [{ label: '测试点 (N=120)', data: accData, backgroundColor: '#0d9488' }, 
+                               { label: '参考线', data: [{x:60,y:60}, {x:150,y:150}], type: 'line', borderColor: '#cbd5e1', borderDash: [5,5], fill: false, pointRadius: 0 }] 
                 },
-                options: { 
-                    responsive: true, 
-                    maintainAspectRatio: false, 
-                    scales: { 
-                        x: { title: { display: true, text: '三甲医院金标准仪 (BPM)' } }, 
-                        y: { title: { display: true, text: '本款可穿戴监护仪 (BPM)' } } 
-                    } 
-                }
+                options: { responsive: true, maintainAspectRatio: false, scales: { x: { title: { display: true, text: '金标准 (BPM)' } }, y: { title: { display: true, text: '本设备 (BPM)' } } } }
             });
             const trendCtx = document.getElementById('trendChart').getContext('2d');
             new Chart(trendCtx, {
                 type: 'line',
                 data: { 
                     labels: Array.from({length: 24}, (_, i) => `${i}:00`), 
-                    datasets: [{ 
-                        label: '24小时连续监测数据流', 
-                        data: Array.from({length: 24}, () => 75 + Math.random()*10), 
-                        borderColor: '#4f46e5', 
-                        backgroundColor: 'rgba(79,70,229,0.1)', 
-                        fill: true, 
-                        tension: 0.4 
-                    }] 
+                    datasets: [{ label: '24小时数据', data: Array.from({length: 24}, () => 75 + Math.random()*10), borderColor: '#4f46e5', backgroundColor: 'rgba(79,70,229,0.1)', fill: true, tension: 0.4 }] 
                 },
                 options: { responsive: true, maintainAspectRatio: false }
             });
@@ -526,10 +533,10 @@
         function switchChart(type) {
             document.getElementById('chart-accuracy').classList.toggle('hidden', type !== 'accuracy');
             document.getElementById('chart-trend').classList.toggle('hidden', type !== 'trend');
-            const activeClass = 'px-6 py-2 rounded-lg text-sm font-bold bg-white text-teal-700 shadow-sm transition font-sans';
-            const inactiveClass = 'px-6 py-2 rounded-lg text-sm font-medium text-slate-500 hover:text-slate-700 transition font-sans';
-            document.getElementById('btn-acc').className = type === 'accuracy' ? activeClass : inactiveClass;
-            document.getElementById('btn-trd').className = type === 'trend' ? activeClass : inactiveClass;
+            const active = 'px-6 py-2 rounded-lg text-sm font-bold bg-white text-teal-700 shadow-sm transition font-sans';
+            const inactive = 'px-6 py-2 rounded-lg text-sm font-medium text-slate-500 hover:text-slate-700 transition font-sans';
+            document.getElementById('btn-acc').className = type === 'accuracy' ? active : inactive;
+            document.getElementById('btn-trd').className = type === 'trend' ? active : inactive;
         }
 
         document.addEventListener('DOMContentLoaded', () => {
