@@ -2,8 +2,8 @@
 <!-- Application Structure Plan: 
     1. Hero: 以实时动态心电模拟器吸引注意力。
     2. Value Proposition: 强调“科研先行”的叙事逻辑。
-    3. Gemini AI Assistant: 已切换为 v1 稳定版接口，模型 gemini-1.5-flash。
-    4. UI Alignment: 根据用户截屏，通过 h-12 和 h-24 强制对齐所有元素高度。
+    3. Gemini AI Assistant: 核心功能板块。已切换至 v1beta 接口配 gemini-1.5-flash 模型，解决路径未找到报错。
+    4. UI Alignment: 根据用户截图，通过固定高度强制对齐左右板块每一个子元素。
     5. Proof: 交互式散点图展示学术精度。
     整体布局采用思源宋体，营造严谨的学术氛围。 -->
 <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
@@ -16,6 +16,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+        /* 导入思源宋体 */
         @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700&display=swap');
         
         :root {
@@ -127,6 +128,7 @@
 </head>
 <body class="selection:bg-teal-100">
 
+    <!-- 导航栏 -->
     <nav class="fixed top-0 w-full z-50 glass border-b border-slate-200/50">
         <div class="max-w-7xl mx-auto px-6 flex justify-between h-20 items-center">
             <div class="flex items-center gap-3">
@@ -140,7 +142,7 @@
                 <a href="#monitor" class="text-sm font-medium text-slate-600 hover:text-teal-600 transition">实时动态</a>
                 <a href="#gemini-ai" class="text-sm font-medium text-slate-600 hover:text-teal-600 transition font-bold">AI 助手 ✨</a>
                 <a href="#research" class="text-sm font-medium text-slate-600 hover:text-teal-600 transition">科研价值</a>
-                <a href="#accuracy" class="text-sm font-medium text-slate-600 hover:text-teal-600 transition text-nowrap">精度实证</a>
+                <a href="#accuracy" class="text-sm font-medium text-slate-600 hover:text-teal-600 transition text-nowrap text-nowrap">精度实证</a>
             </div>
             <div class="flex items-center gap-3">
                 <button onclick="toggleSettings()" class="p-2 text-slate-400 hover:text-teal-600 transition flex items-center justify-center" title="API 配置">
@@ -151,6 +153,7 @@
         </div>
     </nav>
 
+    <!-- 主视觉 -->
     <section class="pt-44 pb-24 px-6 max-w-7xl mx-auto text-center">
         <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-teal-50 text-teal-700 text-xs font-bold mb-8 border border-teal-100 font-sans">
             <span class="live-indicator"></span> 2026 智慧病房科研级新标杆
@@ -166,17 +169,17 @@
             <div class="bg-slate-950 rounded-[22px] overflow-hidden">
                 <div class="px-6 py-4 flex justify-between items-center border-b border-white/10 bg-white/5">
                     <div class="flex items-center gap-4">
-                        <div class="text-teal-400 font-mono text-sm uppercase tracking-tighter">Live Stream: Patient_082</div>
-                        <div class="text-white/40 text-xs font-mono">256Hz Sampling</div>
+                        <div class="text-teal-400 font-mono text-sm uppercase tracking-tighter font-mono">Live Stream: Patient_082</div>
+                        <div class="text-white/40 text-xs font-mono font-mono">256Hz Sampling</div>
                     </div>
                     <div class="flex gap-6">
                         <div class="text-right">
                             <span class="block text-[10px] text-white/50 uppercase font-sans">Heart Rate</span>
-                            <span id="hr-value" class="text-2xl font-bold text-teal-400 font-mono">72</span>
+                            <span id="hr-value" class="text-2xl font-bold text-teal-400 font-mono font-mono">72</span>
                         </div>
                         <div class="text-right">
                             <span class="block text-[10px] text-white/50 uppercase font-sans">SPO2</span>
-                            <span id="spo2-value" class="text-2xl font-bold text-blue-400 font-mono">98</span>
+                            <span id="spo2-value" class="text-2xl font-bold text-blue-400 font-mono font-mono">98</span>
                         </div>
                     </div>
                 </div>
@@ -186,8 +189,8 @@
                     </div>
                 </div>
                 <div class="px-6 py-3 bg-white/5 border-t border-white/10 flex justify-between font-sans">
-                    <span class="text-white/30 text-[10px] font-mono uppercase">Raw Data Output: Enabled</span>
-                    <span class="text-teal-500 text-[10px] font-bold uppercase tracking-widest">● Continuous Recording</span>
+                    <span class="text-white/30 text-[10px] font-mono font-mono uppercase">Raw Data Output: Enabled</span>
+                    <span class="text-teal-500 text-[10px] font-bold uppercase tracking-widest font-sans">● Continuous Recording</span>
                 </div>
             </div>
         </div>
@@ -198,14 +201,14 @@
         <div class="max-w-7xl mx-auto px-6">
             <div class="text-center mb-16">
                 <h2 class="text-4xl font-bold text-slate-900 mb-4 font-serif text-nowrap">Gemini AI 学术招商助手 ✨</h2>
-                <p class="text-slate-500 text-lg font-sans">利用 Google Gemini 的强大能力，为您的进院方案注入智能灵感</p>
+                <p class="text-slate-500 text-lg font-sans font-sans">利用 Google Gemini 的强大能力，为您的进院方案注入智能灵感</p>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-stretch max-w-6xl mx-auto">
                 <!-- 工具 1: 科研选题 -->
                 <div class="bg-white p-10 rounded-[2.5rem] border border-slate-200 shadow-xl flex flex-col h-full hover:shadow-2xl transition-all duration-500">
-                    <div class="flex items-center gap-4 mb-8">
-                        <div class="w-14 h-14 bg-[#4f46e5] text-white rounded-2xl flex items-center justify-center font-bold font-sans shadow-lg shadow-indigo-200 text-2xl">✨</div>
+                    <div class="flex items-center gap-4 mb-8 h-14">
+                        <div class="w-14 h-14 bg-[#4f46e5] text-white rounded-2xl flex items-center justify-center font-bold font-sans shadow-lg shadow-indigo-200 text-2xl flex-shrink-0">✨</div>
                         <h3 class="text-2xl font-bold text-slate-800">临床科研选题生成器</h3>
                     </div>
                     
@@ -228,10 +231,10 @@
                     </div>
                 </div>
 
-                <!-- 工具 2: 个性化话术 -->
+                <!-- 工具 2: 个性化话术专家 -->
                 <div class="bg-white p-10 rounded-[2.5rem] border border-slate-200 shadow-xl flex flex-col h-full hover:shadow-2xl transition-all duration-500">
-                    <div class="flex items-center gap-4 mb-8">
-                        <div class="w-14 h-14 bg-[#468b83] text-white rounded-2xl flex items-center justify-center font-bold font-sans shadow-lg shadow-teal-100 text-2xl">✨</div>
+                    <div class="flex items-center gap-4 mb-8 h-14">
+                        <div class="w-14 h-14 bg-[#468b83] text-white rounded-2xl flex items-center justify-center font-bold font-sans shadow-lg shadow-teal-100 text-2xl flex-shrink-0">✨</div>
                         <h3 class="text-2xl font-bold text-slate-800">个性化进院话术专家</h3>
                     </div>
                     
@@ -286,11 +289,11 @@
                 <div class="grid grid-cols-2 gap-6">
                     <div class="bg-slate-50 p-8 rounded-3xl shadow-sm border border-slate-100">
                         <div class="text-3xl font-bold text-teal-600 mb-2 font-sans">95%+</div>
-                        <p class="text-sm text-slate-500">科研数据采集自动化程度。</p>
+                        <p class="text-sm text-slate-500 font-sans">科研数据采集自动化程度。</p>
                     </div>
                     <div class="bg-slate-900 p-8 rounded-3xl shadow-sm text-white">
-                        <div class="text-3xl font-bold text-teal-400 mb-2 font-mono">CSV</div>
-                        <p class="text-sm text-slate-300">通用学术数据格式，支持 SPSS/Python 一键导入。</p>
+                        <div class="text-3xl font-bold text-teal-400 mb-2 font-mono font-mono">CSV</div>
+                        <p class="text-sm text-slate-300 font-sans">通用学术数据格式，支持 SPSS/Python 一键导入。</p>
                     </div>
                 </div>
             </div>
@@ -298,27 +301,27 @@
     </section>
 
     <!-- 配置模态框 -->
-    <div id="settings-modal" class="fixed inset-0 z-[60] hidden flex items-center justify-center bg-black/50 backdrop-blur-sm font-sans">
+    <div id="settings-modal" class="fixed inset-0 z-[60] hidden flex items-center justify-center bg-black/50 backdrop-blur-sm font-sans font-sans">
         <div class="glass p-8 rounded-3xl max-w-md w-full mx-4 shadow-2xl">
             <h3 class="text-xl font-bold mb-4">配置 Gemini API</h3>
             <p class="text-sm text-slate-500 mb-6 leading-relaxed">
-                请输入您的 Gemini API Key。Key 将保存在您的<b>浏览器本地存储</b>中。建议从 Google AI Studio 免费获取。
+                请输入您的 Gemini API Key。Key 将保存在您的<b>浏览器本地存储</b>中。
             </p>
-            <input id="key-input" type="password" placeholder="输入您的 API Key..." class="w-full p-4 rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-teal-500 mb-4 font-mono">
+            <input id="key-input" type="password" placeholder="输入您的 API Key..." class="w-full p-4 rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-teal-500 mb-4 font-mono font-mono">
             <div class="flex gap-3">
                 <button onclick="saveKey()" class="flex-1 bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 rounded-xl transition">保存配置</button>
                 <button onclick="toggleSettings()" class="px-6 py-3 border border-slate-200 hover:bg-slate-50 rounded-xl transition">取消</button>
             </div>
-            <p class="mt-4 text-[10px] text-slate-400 text-center">正式接口: v1/models/gemini-1.5-flash</p>
+            <p class="mt-4 text-[10px] text-slate-400 text-center font-mono uppercase">API Endpoint: v1beta / gemini-1.5-flash</p>
         </div>
     </div>
 
-    <footer class="py-12 border-t border-slate-200 text-center font-sans">
-        <p class="text-slate-400 text-sm font-sans">&copy; 2026 AcademicCare Medical. 专注于医疗大数据与科研级穿戴监护。</p>
+    <footer class="py-12 border-t border-slate-200 text-center font-sans font-sans">
+        <p class="text-slate-400 text-sm font-sans font-sans">&copy; 2026 AcademicCare Medical. 专注于医疗大数据与科研级穿戴监护。</p>
     </footer>
 
     <script>
-        // 核心配置：切换至稳定版 v1 接口
+        // 核心配置：切换回 v1beta 路径，适配通用 gemini-1.5-flash 名称
         let apiKey = localStorage.getItem('GEMINI_KEY') || "";
         const MODEL_NAME = "gemini-1.5-flash"; 
 
@@ -345,14 +348,14 @@
         async function callGemini(prompt, systemInstruction) {
             if (!apiKey) {
                 toggleSettings();
-                throw new Error("请点击右上角设置配置 API Key 以开启 AI 功能。");
+                throw new Error("请点击右上角设置图标配置 API Key。");
             }
 
             const delays = [1000, 2000, 4000, 8000, 16000];
             let retries = 0;
             
-            // 使用正式版 v1 接口，解决 beta 版模型未找到的问题
-            const apiUrl = `https://generativelanguage.googleapis.com/v1/models/${MODEL_NAME}:generateContent?key=${apiKey}`;
+            // 使用 v1beta 路径，这是兼容性最广的路径
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=${apiKey}`;
 
             while (retries < 5) {
                 try {
@@ -360,19 +363,19 @@
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            contents: [
-                                { role: "user", parts: [{ text: `System context: ${systemInstruction}\n\nUser request: ${prompt}` }] }
-                            ]
+                            contents: [{ 
+                                parts: [{ text: `System Instruction: ${systemInstruction}\n\nUser Input: ${prompt}` }] 
+                            }]
                         })
                     });
 
                     if (!response.ok) {
                         const errorData = await response.json();
                         if (response.status === 403 || response.status === 401) {
-                            throw new Error("API Key 无效或权限受限。");
+                            throw new Error("API Key 无效或未授权。");
                         }
                         if (response.status === 404) {
-                            throw new Error("模型或版本路径未找到，请确认 API 设置。");
+                            throw new Error("模型版本路径 (v1beta) 未找到，请检查 API Key 权限。");
                         }
                         throw new Error(errorData.error?.message || `HTTP 错误: ${response.status}`);
                     }
@@ -383,7 +386,7 @@
                     throw new Error("API 返回了非预期的空结果。");
                 } catch (error) {
                     retries++;
-                    if (retries >= 5 || error.message.includes("Key")) throw error;
+                    if (retries >= 5 || error.message.includes("Key") || error.message.includes("404")) throw error;
                     await new Promise(resolve => setTimeout(resolve, delays[retries - 1]));
                 }
             }
@@ -397,8 +400,8 @@
             resultDiv.classList.remove('hidden');
             resultDiv.innerHTML = '<div class="flex items-center justify-center p-16 h-full"><div class="dot-flashing"></div></div>';
 
-            const systemPrompt = "你是一位资深的医疗科研顾问。请基于用户提供的科室推荐3个具有学术新意和SCI潜力的研究方向。重点阐述穿戴设备提供的24小时高频原始数据如何助力研究。使用专业的中文。";
-            
+            const systemPrompt = "你是一位资深的医疗科研顾问。请根据用户提供的方向，推荐3个具有学术新意和SCI潜力的研究方向，并强调连续生理波形数据的价值。请用严谨的学术中文。";
+
             try {
                 const result = await callGemini(dept, systemPrompt);
                 const formatted = result
@@ -408,8 +411,8 @@
 
                 resultDiv.innerHTML = `
                     <div class="ai-result-content">
-                        <div class="text-[#4f46e5] font-bold mb-4 flex items-center gap-2 border-b border-indigo-100 pb-2">
-                            <span>✨</span> 选题方案已生成
+                        <div class="text-[#4f46e5] font-bold mb-4 flex items-center gap-2 border-b border-indigo-100 pb-2 font-sans">
+                            <span>✨</span> 选题建议已生成
                         </div>
                         <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-inner">
                             ${formatted}
@@ -417,7 +420,7 @@
                     </div>
                 `;
             } catch (e) {
-                resultDiv.innerHTML = `<div class="p-6 bg-red-50 text-red-600 rounded-2xl text-xs border border-red-100 leading-relaxed font-sans"><p class="font-bold mb-2">生成失败</p><p>${e.message}</p></div>`;
+                resultDiv.innerHTML = `<div class="p-6 bg-red-50 text-red-600 rounded-2xl text-xs border border-red-100 font-sans leading-relaxed"><p class="font-bold mb-2">无法完成生成</p><p>${e.message}</p></div>`;
             }
         }
 
@@ -429,7 +432,7 @@
             resultDiv.classList.remove('hidden');
             resultDiv.innerHTML = '<div class="flex items-center justify-center p-16 h-full"><div class="dot-flashing"></div></div>';
 
-            const systemPrompt = "你是一位医疗器械招商专家。请定制一段话术。话术应聚焦于：1. 解决科研数据痛点；2. SCI/课题产出价值。";
+            const systemPrompt = "你是一位顶级医疗器械招商专家。请定制一段话术。话术应聚焦于科研痛点、产品的学术价值和SCI产出。";
 
             try {
                 const result = await callGemini(context, systemPrompt);
@@ -437,8 +440,8 @@
 
                 resultDiv.innerHTML = `
                     <div class="ai-result-content">
-                        <div class="text-[#468b83] font-bold mb-4 flex items-center gap-2 border-b border-teal-100 pb-2">
-                            <span>✨</span> 定制沟通话术
+                        <div class="text-[#468b83] font-bold mb-4 flex items-center gap-2 border-b border-teal-100 pb-2 font-sans">
+                            <span>✨</span> 定制话术已生成
                         </div>
                         <div class="bg-teal-50/20 p-5 rounded-2xl border border-teal-100 italic">
                             ${formatted}
@@ -449,7 +452,7 @@
                     </div>
                 `;
             } catch (e) {
-                resultDiv.innerHTML = `<div class="p-6 bg-red-50 text-red-600 rounded-2xl text-xs border border-red-100 font-sans leading-relaxed"><strong class="text-sm">生成失败</strong><br>${e.message}</div>`;
+                resultDiv.innerHTML = `<div class="p-6 bg-red-50 text-red-600 rounded-2xl text-xs border border-red-100 font-sans leading-relaxed"><strong>生成失败</strong><br>${e.message}</div>`;
             }
         }
 
@@ -463,7 +466,7 @@
             alert('已成功复制到剪贴板');
         }
 
-        // --- 实时图表渲染逻辑 ---
+        // --- 实时图表逻辑 ---
         let liveEcgChart;
         function initLiveEcg() {
             const ctx = document.getElementById('liveEcgChart').getContext('2d');
